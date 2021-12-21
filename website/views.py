@@ -24,6 +24,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class OrderView(views.APIView):
     http_method_names = ["post"]
 
+    # pylint: disable-next=no-self-use
     def post(self, request):
         serializer = OrderSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -31,10 +32,7 @@ class OrderView(views.APIView):
         order = Order(**serializer.validated_data)
         order.save()
         CartItem.objects.bulk_create(
-            [
-                CartItem(order=order, product=item["product_id"], amount=item["amount"])
-                for item in cart
-            ]
+            [CartItem(order=order, product=item["product_id"], amount=item["amount"]) for item in cart]
         )
         return Response()
 
@@ -42,6 +40,7 @@ class OrderView(views.APIView):
 class FeedbackView(views.APIView):
     http_method_names = ["post"]
 
+    # pylint: disable-next=no-self-use
     def post(self, request):
         serializer = FeedbackSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

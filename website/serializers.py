@@ -15,6 +15,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# pylint: disable-next=abstract-method
 class CartItemSerializer(serializers.Serializer):
     product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
     amount = serializers.IntegerField(min_value=1)

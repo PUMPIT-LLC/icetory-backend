@@ -1,5 +1,7 @@
 from django.db import models
 
+# pylint: disable=invalid-str-returned
+
 NAME_MAX_LENGTH = 120
 PHONE_MAX_LENGTH = 12
 
@@ -23,8 +25,8 @@ class Category(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'категория'
-        verbose_name_plural = 'категории'
+        verbose_name = "категория"
+        verbose_name_plural = "категории"
 
 
 class Product(models.Model):
@@ -41,16 +43,15 @@ class Product(models.Model):
 
     price = models.IntegerField(verbose_name="Цена")
     portion = models.PositiveIntegerField(verbose_name="Размер порции")
-    portion_unit = models.CharField(
-        max_length=10, default="г.", verbose_name="Единица измерения порции"
-    )
+    portion_unit = models.CharField(max_length=10, default="г.", verbose_name="Единица измерения порции")
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = 'продукт'
-        verbose_name_plural = 'продукты'
+        verbose_name = "продукт"
+        verbose_name_plural = "продукты"
+
 
 # Orders
 
@@ -81,19 +82,15 @@ class Order(CreatedDateModel):
     intercom = models.BooleanField(default=True, verbose_name="Есть домофон?")
 
     day = models.DateField(verbose_name="День доставки")
-    delivery_time = models.CharField(
-        max_length=12, choices=DeliveryTime.choices, verbose_name="Время доставки"
-    )
-    payment_type = models.CharField(
-        max_length=20, choices=PaymentType.choices, verbose_name="Способ оплаты"
-    )
+    delivery_time = models.CharField(max_length=12, choices=DeliveryTime.choices, verbose_name="Время доставки")
+    payment_type = models.CharField(max_length=20, choices=PaymentType.choices, verbose_name="Способ оплаты")
 
     def __str__(self):
         return f"Заказ {self.name} на {self.day} в период {self.delivery_time}"
 
     class Meta:
-        verbose_name = 'заказ'
-        verbose_name_plural = 'заказы'
+        verbose_name = "заказ"
+        verbose_name_plural = "заказы"
 
 
 class CartItem(models.Model):
@@ -105,8 +102,9 @@ class CartItem(models.Model):
         return f"{self.product} - {self.amount} шт."
 
     class Meta:
-        verbose_name = 'позиция заказа'
-        verbose_name_plural = 'позиции заказов'
+        verbose_name = "позиция заказа"
+        verbose_name_plural = "позиции заказов"
+
 
 # Feedback
 
@@ -120,5 +118,5 @@ class FeedbackComment(CreatedDateModel):
         return f"Отзыв от {self.name}"
 
     class Meta:
-        verbose_name = 'отзыв'
-        verbose_name_plural = 'отзывы'
+        verbose_name = "отзыв"
+        verbose_name_plural = "отзывы"

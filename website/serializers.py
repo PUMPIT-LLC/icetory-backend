@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from website.models import Product, Category, Order
+from website.models import Product, Category, Order, FeedbackComment
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.Serializer):
-    id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+    product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
     amount = serializers.IntegerField(min_value=1)
 
 
@@ -25,4 +25,10 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        exclude = ["items"]
+        exclude = ["created_at"]
+
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedbackComment
+        exclude = ["created_at"]

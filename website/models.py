@@ -1,5 +1,17 @@
 from django.db import models
 
+NAME_MAX_LENGTH = 120
+PHONE_MAX_LENGTH = 12
+
+# Common Models
+
+
+class CreatedDateModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    class Meta:
+        abstract = True
+
 
 # Menu
 
@@ -9,6 +21,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
 
 
 class Product(models.Model):
@@ -32,6 +48,9 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
 
 # Orders
 
@@ -49,17 +68,9 @@ class PaymentType(models.TextChoices):
     CASH = "cash", "Наличными"
 
 
-class CartItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    amount = models.SmallIntegerField(verbose_name="Количество")
-
-    def __str__(self):
-        return f"{self.product} - {self.amount} шт."
-
-
-class Order(models.Model):
-    name = models.CharField(max_length=120, verbose_name="Имя заказчика")
-    phone = models.CharField(max_length=12, verbose_name="Телефон")
+class Order(CreatedDateModel):
+    name = models.CharField(max_length=NAME_MAX_LENGTH, verbose_name="Имя заказчика")
+    phone = models.CharField(max_length=PHONE_MAX_LENGTH, verbose_name="Телефон")
     email = models.EmailField(verbose_name="E-mail")
 
     address = models.CharField(max_length=255, verbose_name="Адрес")
@@ -77,7 +88,37 @@ class Order(models.Model):
         max_length=20, choices=PaymentType.choices, verbose_name="Способ оплаты"
     )
 
-    items = models.ManyToManyField(CartItem, verbose_name="Позиции")
-
     def __str__(self):
         return f"Заказ {self.name} на {self.day} в период {self.delivery_time}"
+
+    class Meta:
+        verbose_name = 'заказ'
+        verbose_name_plural = 'заказы'
+
+
+class CartItem(models.Model):
+    order = models.ForeignKey("Order", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    amount = models.SmallIntegerField(verbose_name="Количество")
+
+    def __str__(self):
+        return f"{self.product} - {self.amount} шт."
+
+    class Meta:
+        verbose_name = 'позиция заказа'
+        verbose_name_plural = 'позиции заказов'
+
+# Feedback
+
+
+class FeedbackComment(CreatedDateModel):
+    name = models.CharField(max_length=NAME_MAX_LENGTH, verbose_name="Имя")
+    phone = models.CharField(max_length=PHONE_MAX_LENGTH, verbose_name="Номер телефона")
+    message = models.TextField(verbose_name="Отзыв")
+
+    def __str__(self):
+        return f"Отзыв от {self.name}"
+
+    class Meta:
+        verbose_name = 'отзыв'
+        verbose_name_plural = 'отзывы'

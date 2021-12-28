@@ -157,4 +157,3 @@ MERCHANTS = {
 "app_fail_url": f"{URL_ROOT}/payment/fail",
     }
 }
-

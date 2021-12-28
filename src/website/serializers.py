@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from website.models import Product, Category, Order, FeedbackComment
+from website.models import Product, Category, Order, FeedbackComment, ClientReview, VideoStory
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -10,6 +10,15 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    main_picture = serializers.SerializerMethodField()
+    extra_picture = serializers.SerializerMethodField()
+
+    def get_main_picture(self, obj):
+        return self.context["request"].build_absolute_uri(obj.main_picture.image.url)
+
+    def get_extra_picture(self, obj):
+        return self.context["request"].build_absolute_uri(obj.extra_picture.image.url)
+
     class Meta:
         model = Product
         fields = "__all__"
@@ -26,10 +35,22 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        exclude = ["created_at"]
+        exclude = ["created_at", "status"]
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = FeedbackComment
         exclude = ["created_at"]
+
+
+class VideoStorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoStory
+        exclude = ["id"]
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClientReview
+        exclude = ["id"]

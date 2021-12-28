@@ -17,6 +17,7 @@ class CreatedDateModel(models.Model):
 
 # Marketing content
 
+
 class VideoStory(models.Model):
     predefined_id = models.PositiveSmallIntegerField(verbose_name="Идентификатор (порядковый номер)")
     url = models.URLField(verbose_name="Ссылка на видео")
@@ -33,10 +34,10 @@ class ClientReview(models.Model):
     first_name = models.CharField(max_length=120, verbose_name="Имя")
     last_name = models.CharField(max_length=120, verbose_name="Фамилия")
     photo = models.ImageField(upload_to="reviews", verbose_name="Фото")
-    review = models.TextField( verbose_name="Текст отзыва")
+    review = models.TextField(verbose_name="Текст отзыва")
 
     def __str__(self):
-        return f'Отзыв от {self.first_name} {self.last_name}'
+        return f"Отзыв от {self.first_name} {self.last_name}"
 
     class Meta:
         verbose_name = "отзыв (карточка на сайте)"
@@ -70,8 +71,12 @@ class ProductImage(models.Model):
 
 
 class Product(models.Model):
-    primary_category = models.ForeignKey(Category, verbose_name="Главная категория", related_name="primary_category", on_delete=models.PROTECT)
-    secondary_categories = models.ManyToManyField(Category, verbose_name="Второстепенные категории", related_name="secondary_categories")
+    primary_category = models.ForeignKey(
+        Category, verbose_name="Главная категория", related_name="primary_category", on_delete=models.PROTECT
+    )
+    secondary_categories = models.ManyToManyField(
+        Category, verbose_name="Второстепенные категории", related_name="secondary_categories"
+    )
 
     title = models.CharField(max_length=120, verbose_name="Название")
     description = models.TextField(verbose_name="Состав/описание")
@@ -82,11 +87,17 @@ class Product(models.Model):
     carbs = models.PositiveSmallIntegerField(verbose_name="Углеводы")
 
     price = models.IntegerField(verbose_name="Цена")
-    discount_price = models.IntegerField(null=True, default=None, blank=True, verbose_name="Цена по скидке", help_text="Оставьте пустым, чтобы скидка не выводилась")
+    discount_price = models.IntegerField(
+        null=True,
+        default=None,
+        blank=True,
+        verbose_name="Цена по скидке",
+        help_text="Оставьте пустым, чтобы скидка не выводилась",
+    )
     portion = models.PositiveIntegerField(verbose_name="Размер порции")
     portion_unit = models.CharField(max_length=10, default="г.", verbose_name="Единица измерения порции")
 
-    main_picture = models.ForeignKey(ProductImage, related_name="main_picture",  on_delete=models.PROTECT)
+    main_picture = models.ForeignKey(ProductImage, related_name="main_picture", on_delete=models.PROTECT)
     extra_picture = models.ForeignKey(ProductImage, related_name="extra_picture", on_delete=models.PROTECT)
 
     def __str__(self):
@@ -130,7 +141,7 @@ class Order(CreatedDateModel):
     apartment = models.PositiveIntegerField(verbose_name="Квартира")
     floor = models.PositiveSmallIntegerField(verbose_name="Этаж")
     comment = models.TextField(default="", verbose_name="Комментарий")
-    intercom = models.CharField(max_length=60, default='', verbose_name="Есть домофон?")
+    intercom = models.CharField(max_length=60, default="", verbose_name="Есть домофон?")
 
     day = models.DateField(verbose_name="День доставки")
     delivery_time = models.CharField(max_length=12, choices=DeliveryTime.choices, verbose_name="Время доставки")

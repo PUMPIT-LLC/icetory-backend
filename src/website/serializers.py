@@ -49,6 +49,7 @@ class VideoStorySerializer(serializers.ModelSerializer):
         model = VideoStory
         exclude = ["id"]
 
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientReview

@@ -17,7 +17,7 @@ class CartItemAdmin(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_filter = ("status", )
+    list_filter = ("status",)
     inlines = (CartItemAdmin,)
     readonly_fields = ("name", "phone", "email", "created_at")
 

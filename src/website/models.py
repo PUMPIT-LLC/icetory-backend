@@ -1,6 +1,7 @@
 from django.db import models
 
 # pylint: disable=invalid-str-returned
+from sberbank.models import Payment
 
 NAME_MAX_LENGTH = 120
 PHONE_MAX_LENGTH = 12
@@ -146,6 +147,9 @@ class Order(CreatedDateModel):
     day = models.DateField(verbose_name="День доставки")
     delivery_time = models.CharField(max_length=12, choices=DeliveryTime.choices, verbose_name="Время доставки")
     payment_type = models.CharField(max_length=20, choices=PaymentType.choices, verbose_name="Способ оплаты")
+    payment = models.ForeignKey(
+        Payment, null=True, default=None, blank=True, on_delete=models.PROTECT, verbose_name="Оплата (Сбер.)"
+    )
 
     status = models.SmallIntegerField(default=OrderStatus.CREATED.value, choices=OrderStatus.choices)
 

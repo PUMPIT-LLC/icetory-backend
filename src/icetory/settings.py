@@ -32,6 +32,8 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", [])
 if isinstance(ALLOWED_HOSTS, str):
     ALLOWED_HOSTS = ALLOWED_HOSTS.split(",")
 
+URL_ROOT = os.getenv("URL_ROOT").rstrip("/")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "website",
     "messenger_bot",
+    "sberbank",
 ]
 
 MIDDLEWARE = [
@@ -138,3 +141,19 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+
+# Sberbank
+
+MERCHANT_KEY = os.getenv("SBER_MERCHANT_ID")
+
+# careful
+MERCHANTS = {
+    MERCHANT_KEY: {
+        "username": os.getenv("SBER_USERNAME"),
+        "password": os.getenv("SBER_PASSWORD"),
+        "success_url": f"{URL_ROOT}/sberbank/payment/success",
+        "fail_url": f"{URL_ROOT}/sberbank/payment/fail",
+        "app_success_url": f"{URL_ROOT}/payment/success",
+        "app_fail_url": f"{URL_ROOT}/payment/fail",
+    }
+}

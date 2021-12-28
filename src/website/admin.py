@@ -19,7 +19,7 @@ class CartItemAdmin(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_filter = ("status",)
     inlines = (CartItemAdmin,)
-    readonly_fields = ("name", "phone", "email", "created_at")
+    readonly_fields = ("name", "phone", "email", "created_at", "payment")
 
 
 admin.site.register(Category)

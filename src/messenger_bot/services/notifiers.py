@@ -4,6 +4,7 @@ from telebot import types
 
 from messenger_bot.models import BotUser
 from messenger_bot.services.decorators import log_any_exception
+from services.store import calculate_price
 from website.models import Order, FeedbackComment
 
 
@@ -11,7 +12,7 @@ from website.models import Order, FeedbackComment
 def notify_new_order(order: Order, bot: telebot.TeleBot):
     users_to_notify = BotUser.objects.filter(chat_id__isnull=False, notifies_on=True).all()
     cart_items = order.cartitem_set.prefetch_related("product").all()
-    order_price = sum((item.product.discount_price or item.product.price) * item.amount for item in cart_items)
+    order_price = calculate_price(cart_items)
     message = "\n".join(
         (
             f"Поступил новый заказ: №{order.id}",

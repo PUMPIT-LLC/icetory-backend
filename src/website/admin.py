@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from website.models import Product, Category, Order, CartItem, FeedbackComment
+from website.models import Product, Category, Order, CartItem, FeedbackComment, VideoStory, ClientReview, ProductImage
 
 
 @admin.register(FeedbackComment)
@@ -17,6 +17,7 @@ class CartItemAdmin(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    list_filter = ("status", )
     inlines = (CartItemAdmin,)
     readonly_fields = ("name", "phone", "email", "created_at")
 
@@ -24,3 +25,6 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Product)
 admin.site.register(CartItem)
+admin.site.register(ProductImage)
+admin.site.register(ClientReview)
+admin.site.register(VideoStory)

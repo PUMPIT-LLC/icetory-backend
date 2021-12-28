@@ -1,17 +1,25 @@
 from rest_framework import viewsets, views
 from rest_framework.response import Response
 
-from website.models import Product, Category, FeedbackComment, CartItem, Order
+from website.models import Product, Category, FeedbackComment, CartItem, Order, ClientReview, VideoStory
 from website.serializers import (
     ProductSerializer,
     CategorySerializer,
     OrderSerializer,
-    FeedbackSerializer,
+    FeedbackSerializer, ReviewSerializer, VideoStorySerializer,
 )
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = ClientReview.objects.all()
+    serializer_class = ReviewSerializer
+
+
+class StoriesViewSet(viewsets.ModelViewSet):
+    queryset = VideoStory.objects.all()
+    serializer_class = VideoStorySerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 

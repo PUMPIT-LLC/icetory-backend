@@ -7,14 +7,21 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sberbank', '0008_auto_20211228_1751'),
-        ('website', '0002_alter_clientreview_options_and_more'),
+        ("sberbank", "0008_auto_20211228_1751"),
+        ("website", "0002_alter_clientreview_options_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='payment',
-            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.PROTECT, to='sberbank.payment', verbose_name='Оплата (Сбер.)'),
+            model_name="order",
+            name="payment",
+            field=models.ForeignKey(
+                blank=True,
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="sberbank.payment",
+                verbose_name="Оплата (Сбер.)",
+            ),
         ),
     ]

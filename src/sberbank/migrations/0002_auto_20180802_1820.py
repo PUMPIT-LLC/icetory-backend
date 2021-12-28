@@ -6,18 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sberbank', '0001_initial'),
+        ("sberbank", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='payment',
-            name='client_id',
-            field=models.TextField(blank=True, null=True, verbose_name='client ID'),
+            model_name="payment",
+            name="client_id",
+            field=models.TextField(blank=True, null=True, verbose_name="client ID"),
         ),
         migrations.AlterField(
-            model_name='logentry',
-            name='request_type',
-            field=models.CharField(choices=[(0, 'CREATE'), (1, 'CALLBACK'), (2, 'CHECK_STATUS'), (3, 'REDIRECT'), (4, 'GET_BINDINGS')], db_index=True, max_length=1, verbose_name='request type'),
+            model_name="logentry",
+            name="request_type",
+            field=models.CharField(
+                choices=[(0, "CREATE"), (1, "CALLBACK"), (2, "CHECK_STATUS"), (3, "REDIRECT"), (4, "GET_BINDINGS")],
+                db_index=True,
+                max_length=1,
+                verbose_name="request type",
+            ),
         ),
     ]

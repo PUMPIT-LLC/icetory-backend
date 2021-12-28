@@ -13,11 +13,15 @@ def system_name(card_num):
         return "AMEX"
     elif snum.startswith("4"):
         return "VISA"
-    elif snum.startswith("50") or snum.startswith("56") or snum.startswith("57") or \
-            snum.startswith("58"):
+    elif snum.startswith("50") or snum.startswith("56") or snum.startswith("57") or snum.startswith("58"):
         return "MAESTRO"
-    elif snum.startswith("51") or snum.startswith("52") or snum.startswith("53") or \
-            snum.startswith("54") or snum.startswith("55"):
+    elif (
+        snum.startswith("51")
+        or snum.startswith("52")
+        or snum.startswith("53")
+        or snum.startswith("54")
+        or snum.startswith("55")
+    ):
         return "MASTERCARD"
     elif snum.startswith("60"):
         return "DISCOVER"

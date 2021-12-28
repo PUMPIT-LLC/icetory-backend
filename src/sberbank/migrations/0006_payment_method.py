@@ -7,13 +7,18 @@ import sberbank.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sberbank', '0005_auto_20180831_0901'),
+        ("sberbank", "0005_auto_20180831_0901"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='payment',
-            name='method',
-            field=models.PositiveSmallIntegerField(choices=[(0, 'UNKNOWN'), (1, 'WEB'), (2, 'APPLE'), (3, 'GOOGLE')], db_index=True, default=sberbank.models.Method(0), verbose_name='method'),
+            model_name="payment",
+            name="method",
+            field=models.PositiveSmallIntegerField(
+                choices=[(0, "UNKNOWN"), (1, "WEB"), (2, "APPLE"), (3, "GOOGLE")],
+                db_index=True,
+                default=sberbank.models.Method(0),
+                verbose_name="method",
+            ),
         ),
     ]

@@ -33,6 +33,7 @@ class BindingsView(APIView):
         svc = BankService(settings.MERCHANT_KEY)
         return Response(svc.get_bindings(client_id))
 
+
 class BindingView(APIView):
     authentication_classes = []
 
@@ -50,7 +51,7 @@ class BindingView(APIView):
 class GetHistoryView(APIView):
     @staticmethod
     def get(request, client_id=None, format=None):
-        payments = Payment.objects.filter(client_id=client_id, status=Status.SUCCEEDED).order_by('-updated')
+        payments = Payment.objects.filter(client_id=client_id, status=Status.SUCCEEDED).order_by("-updated")
         serializer = PaymentSerializer(payments, many=True)
         return Response(serializer.data)
 
@@ -59,39 +60,38 @@ def callback(request):
     data = OrderedDict(sorted(request.GET.items(), key=lambda x: x[0]))
 
     try:
-        payment = Payment.objects.get(bank_id=data.get('mdOrder'))
+        payment = Payment.objects.get(bank_id=data.get("mdOrder"))
     except Payment.DoesNotExist:
         return HttpResponse(status=200)
 
     merchant = settings.MERCHANTS.get(settings.MERCHANT_KEY)
-    hash_key = merchant.get('hash_key')
+    hash_key = merchant.get("hash_key")
 
     if hash_key:
-        check_str = ''
+        check_str = ""
 
         for key, value in data.items():
-            if key != 'checksum':
+            if key != "checksum":
                 check_str += "%s;%s;" % (key, value)
 
-        checksum = hmac.new(hash_key.encode(), check_str.encode(), sha256) \
-            .hexdigest().upper()
+        checksum = hmac.new(hash_key.encode(), check_str.encode(), sha256).hexdigest().upper()
 
         LogEntry.objects.create(
             action="callback",
             bank_id=payment.bank_id,
             payment_id=payment.uid,
             response_text=json.dumps(request.GET),
-            checksum=checksum
+            checksum=checksum,
         )
 
-        if checksum != data.get('checksum'):
+        if checksum != data.get("checksum"):
             payment.status = Status.FAILED
             payment.save()
-            return HttpResponseBadRequest('Checksum check failed')
+            return HttpResponseBadRequest("Checksum check failed")
 
-    if int(data.get('status')) == 1:
+    if int(data.get("status")) == 1:
         payment.status = Status.SUCCEEDED
-    elif int(data.get('status')) == 0:
+    elif int(data.get("status")) == 0:
         payment.status = Status.FAILED
 
     payment.save()
@@ -101,7 +101,7 @@ def callback(request):
 
 def redirect(request, kind=None):
     try:
-        payment = Payment.objects.get(bank_id=request.GET.get('orderId'))
+        payment = Payment.objects.get(bank_id=request.GET.get("orderId"))
     except Payment.DoesNotExist:
         return HttpResponse(status=404)
 

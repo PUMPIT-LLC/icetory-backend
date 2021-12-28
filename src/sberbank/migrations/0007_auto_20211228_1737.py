@@ -8,28 +8,33 @@ import sberbank.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sberbank', '0006_payment_method'),
+        ("sberbank", "0006_payment_method"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='payment',
-            name='bank_id',
-            field=models.UUIDField(blank=True, db_index=True, null=True, verbose_name='банковский ИД'),
+            model_name="payment",
+            name="bank_id",
+            field=models.UUIDField(blank=True, db_index=True, null=True, verbose_name="банковский ИД"),
         ),
         migrations.AlterField(
-            model_name='payment',
-            name='details',
-            field=jsonfield.fields.JSONField(blank=True, null=True, verbose_name='детали'),
+            model_name="payment",
+            name="details",
+            field=jsonfield.fields.JSONField(blank=True, null=True, verbose_name="детали"),
         ),
         migrations.AlterField(
-            model_name='payment',
-            name='status',
-            field=models.PositiveSmallIntegerField(choices=[(0, 'CREATED'), (1, 'PENDING'), (2, 'SUCCEEDED'), (3, 'FAILED'), (4, 'REFUNDED')], db_index=True, default=sberbank.models.Status['CREATED'], verbose_name='состояние'),
+            model_name="payment",
+            name="status",
+            field=models.PositiveSmallIntegerField(
+                choices=[(0, "CREATED"), (1, "PENDING"), (2, "SUCCEEDED"), (3, "FAILED"), (4, "REFUNDED")],
+                db_index=True,
+                default=sberbank.models.Status["CREATED"],
+                verbose_name="состояние",
+            ),
         ),
         migrations.AlterField(
-            model_name='payment',
-            name='updated',
-            field=models.DateTimeField(auto_now=True, db_index=True, verbose_name='изменен'),
+            model_name="payment",
+            name="updated",
+            field=models.DateTimeField(auto_now=True, db_index=True, verbose_name="изменен"),
         ),
     ]

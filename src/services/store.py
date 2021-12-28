@@ -16,7 +16,7 @@ def form_payment_url(order: Order) -> str:
     cart_items = order.cartitem_set.prefetch_related("product").all()
     price = calculate_price(cart_items)
     svc = BankService(settings.MERCHANT_KEY)
-    payment, url = svc.pay(price, params={'order_id': order.id}, description=f'Оплата заказа №{order.id}')
+    payment, url = svc.pay(price, params={"order_id": order.id}, description=f"Оплата заказа №{order.id}")
     order.payment = payment
     order.save()
     return url

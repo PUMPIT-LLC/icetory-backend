@@ -19,11 +19,11 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_pan(obj):
-        return obj.details.get('pan')
+        return obj.details.get("pan")
 
     def get_system(self, obj):
         return system_name(self.get_pan(obj))
 
     class Meta:
         model = Payment
-        fields = ['uid', 'amount', 'status', 'updated', 'pan', 'system', 'method']
+        fields = ["uid", "amount", "status", "updated", "pan", "system", "method"]

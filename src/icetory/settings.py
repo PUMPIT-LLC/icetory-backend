@@ -32,7 +32,7 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", [])
 if isinstance(ALLOWED_HOSTS, str):
     ALLOWED_HOSTS = ALLOWED_HOSTS.split(",")
 
-URL_ROOT = os.getenv("URL_ROOT").rstrip('/')
+URL_ROOT = os.getenv("URL_ROOT").rstrip("/")
 
 # Application definition
 
@@ -152,8 +152,8 @@ MERCHANTS = {
         "username": os.getenv("SBER_USERNAME"),
         "password": os.getenv("SBER_PASSWORD"),
         "success_url": f"{URL_ROOT}/sberbank/payment/success",
-"fail_url": f"{URL_ROOT}/sberbank/payment/fail",
-"app_success_url": f"{URL_ROOT}/payment/success",
-"app_fail_url": f"{URL_ROOT}/payment/fail",
+        "fail_url": f"{URL_ROOT}/sberbank/payment/fail",
+        "app_success_url": f"{URL_ROOT}/payment/success",
+        "app_fail_url": f"{URL_ROOT}/payment/fail",
     }
 }

@@ -157,3 +157,23 @@ MERCHANTS = {
         "app_fail_url": f"{URL_ROOT}/payment/fail",
     }
 }
+
+# Mailing
+
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+
+STORE_EMAIL = os.getenv("STORE_EMAIL")
+STORE_PASSWORD = os.getenv("STORE_PASSWORD")
+
+EMAIL_CONNECTIONS = {
+    "store": {
+        "host": EMAIL_HOST,
+        "username": STORE_EMAIL,
+        "password": STORE_PASSWORD,
+        "port": EMAIL_PORT,
+        "use_tls": EMAIL_USE_TLS,
+    },
+}
+EMAIL_CONNECTION_DEFAULT = "store"

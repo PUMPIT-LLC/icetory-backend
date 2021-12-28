@@ -12,7 +12,6 @@ class FeedbackAdmin(admin.ModelAdmin):
 class CartItemAdmin(admin.TabularInline):
     model = CartItem
     extra = 0
-    readonly_fields = ("product",)
     fields = ("product", "amount")
 
 

@@ -17,5 +17,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("bot/", include("messenger_bot.urls")),
     path("api/v1/", include("website.urls"), name="website-api"),
 ]

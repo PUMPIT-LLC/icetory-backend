@@ -1,6 +1,9 @@
+from django.db import transaction
 from rest_framework import viewsets, views
 from rest_framework.response import Response
 
+from messenger_bot.services.bot import bot
+from messenger_bot.services.notifiers import notify_new_order, notify_new_feedback
 from website.models import Product, Category, FeedbackComment, CartItem, Order, ClientReview, VideoStory
 from website.serializers import (
     ProductSerializer,
@@ -36,6 +39,7 @@ class OrderView(views.APIView):
     http_method_names = ["post"]
 
     # pylint: disable-next=no-self-use
+    @transaction.atomic
     def post(self, request):
         serializer = OrderSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -45,6 +49,7 @@ class OrderView(views.APIView):
         CartItem.objects.bulk_create(
             [CartItem(order=order, product=item["product_id"], amount=item["amount"]) for item in cart]
         )
+        notify_new_order(order, bot)
         return Response()
 
 
@@ -55,5 +60,6 @@ class FeedbackView(views.APIView):
     def post(self, request):
         serializer = FeedbackSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        FeedbackComment(**serializer.validated_data).save()
+        new_feedback_comment = FeedbackComment(**serializer.validated_data).save()
+        notify_new_feedback(new_feedback_comment, bot)
         return Response()

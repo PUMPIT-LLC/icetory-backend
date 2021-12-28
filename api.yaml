@@ -1,0 +1,242 @@
+openapi: 3.0.0
+
+info:
+  title: icetory API
+  description: API for icetory backeng
+  version: 1.0.0
+
+paths:
+  /api/v1/categories/:
+    get:
+      summary: Список категорий
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID категории
+                    title:
+                      type: string
+                      description: Название категории
+
+  /api/v1/products/:
+    get:
+      summary: Список продуктов
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID продукта
+                    title:
+                      type: string
+                      description: Название продукта
+                    description:
+                      type: string
+                      description: Описание продукта
+
+                    primary_category:
+                      type: integer
+                      description: ID первичной категории
+                    secondary_categories:
+                      type: array
+                      items:
+                        type: integer
+                        description: ID вторичных категорий
+
+                    main_picture:
+                      type: string
+                      description: URL основного изображения продукта
+                    extra_picture:
+                      type: string
+                      description: URL дополнительного изображения продукта
+
+                    calories:
+                      type: integer
+                      description: Калории
+                    proteins:
+                      type: integer
+                      description: Белки
+                    fats:
+                      type: integer
+                      description: Жиры
+                    carbs:
+                      type: integer
+                      description: Углеводы
+                    portion:
+                      type: integer
+                      description: Размер порции
+                    portion_unit:
+                      type: string
+                      description: Единица измерения порции (прим. "г.")
+
+                    price:
+                      type: integer
+                      description: Цена без скидки
+                    discount_price:
+                      type: integer
+                      nullable: true
+                      description: Цена со скидкой (если null, то скидки нет)
+
+
+
+  /api/v1/reviews/:
+    get:
+      summary: Получить отзывы клиентов
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                      description: Имя
+                    last_name:
+                      type: string
+                      description: Фамилия
+                    photo:
+                      type: string
+                      description: Фото (ссылка)
+                      format: URL
+                    review:
+                      type: string
+                      description: Текст ревью
+
+  /api/v1/stories/:
+    get:
+      summary: Получить сторисы
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    predefined_id:
+                      type: integer
+                      description: ID для синхронизации с фронтом
+                    url:
+                      type: string
+                      description: Ссылка на видео сторис
+                      format: URL
+
+  /api/v1/feedback/:
+    post:
+      summary: Обратная связь
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Имя
+                phone:
+                  type: string
+                  description: Телефон (макс. 12 символов)
+                message:
+                  type: string
+                  description: Сообщение пользователя
+      responses:
+        "200":
+          description: success
+
+  /api/v1/orders/:
+    post:
+      summary: Сделать заказ
+      description: Ссылка на оплату выдаётся только один раз
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Имя пользователя
+                phone:
+                  type: string
+                  description: Телефон (макс. 12 символов)
+                email:
+                  type: string
+                  description: Электронная почта пользователя
+                address:
+                  type: string
+                  description: Адрес
+                entrance:
+                  type: integer
+                  description: Подъезд
+                apartment:
+                  type: integer
+                  description: Номер квартиры
+                floor:
+                  type: integer
+                  description: Этаж
+                comment:
+                  type: string
+                  description: Комментарий пользователя
+                intercom:
+                  type: string
+                  description: Домофон
+                day:
+                  type: string
+                  description: Дата в формате (год-месяц-день)
+                delivery_time:
+                  type: string
+                  enum: ["8-11", "11-14", "14-17", "17-20"]
+                  description: Промежуток доставки
+                payment_type:
+                  type: string
+                  enum: ["cash", "card-offline", "card-online"]
+                  description: Способ оплаты (ссылка будет только при card-online)
+                cart:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product_id:
+                        type: integer
+                        description: ID продукта
+                      amount:
+                        type: integer
+                        description: Кол-во продукта (штук)
+
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Флаг успеха операции (при 200 всегда true)
+                  url:
+                    type: string
+                    description: Ссылка на оплату (только если способ оплаты card-online)
+                    format: URL
+

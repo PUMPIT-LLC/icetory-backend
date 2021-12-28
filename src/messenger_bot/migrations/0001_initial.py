@@ -7,18 +7,17 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='BotUser',
+            name="BotUser",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, verbose_name='Имя')),
-                ('user_id', models.BigIntegerField()),
-                ('chat_id', models.BigIntegerField(blank=True, default=None, null=True)),
-                ('notifies_on', models.BooleanField(default=True)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=120, verbose_name="Имя")),
+                ("user_id", models.BigIntegerField()),
+                ("chat_id", models.BigIntegerField(blank=True, default=None, null=True)),
+                ("notifies_on", models.BooleanField(default=True)),
             ],
         ),
     ]

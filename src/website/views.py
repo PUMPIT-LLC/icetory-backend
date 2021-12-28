@@ -60,6 +60,7 @@ class FeedbackView(views.APIView):
     def post(self, request):
         serializer = FeedbackSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        new_feedback_comment = FeedbackComment(**serializer.validated_data).save()
+        new_feedback_comment = FeedbackComment(**serializer.validated_data)
+        new_feedback_comment.save()
         notify_new_feedback(new_feedback_comment, bot)
         return Response()

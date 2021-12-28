@@ -46,7 +46,7 @@ def notify_new_order(order: Order, bot: telebot.TeleBot):
             "\n".join(f"{item.product} - {item.amount} шт." for item in cart_items),
         )
     )
-    keyboard = types.ReplyKeyboardMarkup(row_width=2)
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
     keyboard.add(types.InlineKeyboardButton("Принять заказ", callback_data=f"order::confirm::{order.id}"))
     keyboard.add(types.InlineKeyboardButton("Это спам", callback_data=f"order::spam::{order.id}"))
     for user in users_to_notify:
@@ -57,7 +57,7 @@ def notify_new_order(order: Order, bot: telebot.TeleBot):
 def notify_new_feedback(feedback: FeedbackComment, bot: telebot.TeleBot):
     users_to_notify = BotUser.objects.filter(chat_id__isnull=False, notifies_on=True).all()
     message = f"Отзыв от {feedback.name}:\n{feedback.message}\n\nКонтактный номер: {feedback.phone}"
-    keyboard = types.ReplyKeyboardMarkup(row_width=1)
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(types.InlineKeyboardButton("Удалить", callback_data=f"feedback::delete::{feedback.id}"))
     for user in users_to_notify:
         bot.send_message(chat_id=user.chat_id, text=message, reply_markup=keyboard)

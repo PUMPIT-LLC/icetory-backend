@@ -6,5 +6,5 @@ from messenger_bot.views import handle_hook
 
 urlpatterns = [
     # CHANGE
-    path(settings.WEBHOOK_URL.split('/')[-1].strip(), csrf_exempt(handle_hook)),
+    path(settings.WEBHOOK_URL.split("/")[-1].strip(), csrf_exempt(handle_hook)),
 ]

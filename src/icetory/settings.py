@@ -32,7 +32,7 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", [])
 if isinstance(ALLOWED_HOSTS, str):
     ALLOWED_HOSTS = ALLOWED_HOSTS.split(",")
 
-URL_ROOT = os.getenv("URL_ROOT").removesuffix("/")
+URL_ROOT = os.getenv("URL_ROOT").rstrip('/')
 
 # Application definition
 

@@ -32,6 +32,9 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", [])
 if isinstance(ALLOWED_HOSTS, str):
     ALLOWED_HOSTS = ALLOWED_HOSTS.split(",")
 
+CORS_ALLOW_ALL_ORIGINS = True  # TODO DO NOT LET IT INTO PRODUCTION
+
+
 URL_ROOT = os.getenv("URL_ROOT").rstrip("/")
 
 # Application definition
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "website",
     "messenger_bot",
@@ -52,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

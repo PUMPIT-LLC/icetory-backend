@@ -50,6 +50,7 @@ class ClientReview(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=80)
+    position = models.SmallIntegerField(verbose_name="Порядковый номер")
 
     def __str__(self):
         return self.title
@@ -76,16 +77,16 @@ class Product(models.Model):
         Category, verbose_name="Главная категория", related_name="primary_category", on_delete=models.PROTECT
     )
     secondary_categories = models.ManyToManyField(
-        Category, verbose_name="Второстепенные категории", related_name="secondary_categories"
+        Category, verbose_name="Второстепенные категории", related_name="secondary_categories", blank=True
     )
 
     title = models.CharField(max_length=120, verbose_name="Название")
     description = models.TextField(verbose_name="Состав/описание")
 
-    calories = models.PositiveIntegerField(verbose_name="Калории")
-    proteins = models.PositiveSmallIntegerField(verbose_name="Белки")
-    fats = models.PositiveSmallIntegerField(verbose_name="Жиры")
-    carbs = models.PositiveSmallIntegerField(verbose_name="Углеводы")
+    calories = models.FloatField(verbose_name="Калории")
+    proteins = models.FloatField(verbose_name="Белки")
+    fats = models.FloatField(verbose_name="Жиры")
+    carbs = models.FloatField(verbose_name="Углеводы")
 
     price = models.IntegerField(verbose_name="Цена")
     discount_price = models.IntegerField(
@@ -98,8 +99,12 @@ class Product(models.Model):
     portion = models.PositiveIntegerField(verbose_name="Размер порции")
     portion_unit = models.CharField(max_length=10, default="г.", verbose_name="Единица измерения порции")
 
-    main_picture = models.ForeignKey(ProductImage, related_name="main_picture", on_delete=models.PROTECT)
-    extra_picture = models.ForeignKey(ProductImage, related_name="extra_picture", on_delete=models.PROTECT)
+    main_picture = models.ForeignKey(
+        ProductImage, related_name="main_picture", on_delete=models.PROTECT, null=True, blank=True
+    )
+    extra_picture = models.ForeignKey(
+        ProductImage, related_name="extra_picture", on_delete=models.PROTECT, null=True, blank=True
+    )
 
     def __str__(self):
         return self.title
@@ -183,8 +188,8 @@ class FeedbackComment(CreatedDateModel):
     message = models.TextField(verbose_name="Отзыв")
 
     def __str__(self):
-        return f"Отзыв от {self.name}"
+        return f"Обратная связь от {self.name}"
 
     class Meta:
-        verbose_name = "отзыв"
-        verbose_name_plural = "отзывы"
+        verbose_name = "обратная связь"
+        verbose_name_plural = "обратная связь"

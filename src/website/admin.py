@@ -22,7 +22,12 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ("name", "phone", "email", "created_at", "payment")
 
 
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("position", "title")
+    ordering = ("position",)
+
+
 admin.site.register(Product)
 admin.site.register(CartItem)
 admin.site.register(ProductImage)

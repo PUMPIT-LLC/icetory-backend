@@ -21,9 +21,8 @@ class CreatedDateModel(models.Model):
 
 class VideoStory(models.Model):
     predefined_id = models.PositiveSmallIntegerField(verbose_name="Идентификатор (порядковый номер)")
-    url = models.URLField(verbose_name="Ссылка на видео", blank=True, null=True)
     duration = models.IntegerField(default=0, verbose_name="Длительность", unique=True)
-    video = models.FileField(upload_to='stories', verbose_name="Загруженное видео", blank=True, null=True)
+    video = models.FileField(upload_to='stories', verbose_name="Загруженное видео")
 
     def __str__(self):
         return str(self.predefined_id)

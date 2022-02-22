@@ -48,8 +48,6 @@ class VideoStorySerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
 
     def get_url(self, obj):
-        if obj.url:
-            return obj.url
         return self.context["view"].request.build_absolute_uri(obj.video.url)
 
     class Meta:

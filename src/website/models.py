@@ -21,7 +21,7 @@ class CreatedDateModel(models.Model):
 
 class VideoStory(models.Model):
     predefined_id = models.PositiveSmallIntegerField(verbose_name="Идентификатор (порядковый номер)")
-    duration = models.IntegerField(default=0, verbose_name="Длительность", unique=True)
+    duration = models.IntegerField(default=0, verbose_name="Длительность")
     video = models.FileField(upload_to='stories', verbose_name="Загруженное видео")
 
     def __str__(self):
@@ -51,7 +51,7 @@ class ClientReview(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=80)
-    position = models.SmallIntegerField(verbose_name="Порядковый номер")
+    position = models.SmallIntegerField(verbose_name="Порядковый номер", unique=True)
 
     def __str__(self):
         return self.title

@@ -14,9 +14,13 @@ class ProductSerializer(serializers.ModelSerializer):
     extra_picture = serializers.SerializerMethodField()
 
     def get_main_picture(self, obj):
+        if not obj.main_picture:
+            return None
         return self.context["request"].build_absolute_uri(obj.main_picture.image.url)
 
     def get_extra_picture(self, obj):
+        if not obj.extra_picture:
+            return None
         return self.context["request"].build_absolute_uri(obj.extra_picture.image.url)
 
     class Meta:

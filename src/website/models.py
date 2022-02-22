@@ -22,6 +22,7 @@ class CreatedDateModel(models.Model):
 class VideoStory(models.Model):
     predefined_id = models.PositiveSmallIntegerField(verbose_name="Идентификатор (порядковый номер)")
     url = models.URLField(verbose_name="Ссылка на видео")
+    duration = models.IntegerField(default=0, verbose_name="Длительность")
 
     def __str__(self):
         return str(self.predefined_id)
